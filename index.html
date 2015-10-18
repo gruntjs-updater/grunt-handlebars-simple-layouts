@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Grunt-handlebars-simple-layouts by yong1236</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Grunt-handlebars-simple-layouts</h1>
+        <h2></h2>
+
+        <section id="downloads">
+          <a href="https://github.com/yong1236/grunt-handlebars-simple-layouts/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/yong1236/grunt-handlebars-simple-layouts/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/yong1236/grunt-handlebars-simple-layouts" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="grunt-handlebars-layouts" class="anchor" href="#grunt-handlebars-layouts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Grunt Handlebars Layouts</h1>
+
+<p>Handlebars helpers which implement Jade-like layout blocks.</p>
+
+<ul>
+<li>Extend: extend layout (partial)</li>
+<li>Append</li>
+<li>Replace</li>
+<li>Prepend</li>
+</ul>
+
+<p>A grunt.js task to render Handlebars templates against a context &amp; produce HTML.</p>
+
+<p>If you want to pre-compilation your Handlebars use the <a href="https://github.com/gruntjs/grunt-contrib-handlebars">grunt-contrib-handlebars</a> Grunt task. This task will pre-compile multiple templates into a single file. </p>
+
+<h3>
+<a id="resources" class="anchor" href="#resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resources</h3>
+
+<ul>
+<li><a href="http://handlebarsjs.com">Handlebars templates</a></li>
+<li><a href="http://mustache.github.io">Mustache</a></li>
+<li><a href="http://blog.teamtreehouse.com/handlebars-js-part-2-partials-and-helpers">Treehouse Blog, Handlebars.js Part 2: Partials and Helpers</a></li>
+<li><a href="http://net.tutsplus.com/tutorials/javascript-ajax/introduction-to-handlebars/">NetTuts+: An Introduction to Handlebars</a></li>
+</ul>
+
+<h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>This task renders Handlebars templates against a context to produce HTML.</p>
+
+<p>Inspired by <a href="https://github.com/ehynds/grunt-dust-html">grunt-dust-html</a> and <a href="https://github.com/shannonmoeller/handlebars-layouts">handlebars-layouts</a></p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>This plugin requires Grunt <code>~0.4.0</code></p>
+
+<p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before, be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide, as it explains how to create a <a href="http://gruntjs.com/sample-gruntfile">Gruntfile</a> as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:</p>
+
+<div class="highlight highlight-source-shell"><pre>npm install grunt-handlebars-layouts --save-dev</pre></div>
+
+<p>Next, add this line to your project's grunt file:</p>
+
+<div class="highlight highlight-source-js"><pre>grunt.loadNpmTasks(<span class="pl-s"><span class="pl-pds">"</span>grunt-handlebars-layouts<span class="pl-pds">"</span></span>);</pre></div>
+
+<p><em>This plugin was designed to work with Grunt 0.4.x. If you're still using grunt v0.3.x it's strongly recommended that <a href="http://gruntjs.com/upgrading-from-0.3-to-0.4">you upgrade</a>, but in case you can't please use <a href="https://github.com/gruntjs/grunt-contrib-handlebars/tree/grunt-0.3-stable">v0.3.3</a>.</em></p>
+
+<p>Lastly, add the configuration settings (see below) to your grunt file.</p>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>This task has two required properties, <code>src</code> and <code>dest</code>. <code>src</code> is the path to your source file and <code>dest</code> is the file this task will write to (relative to the grunt.js file). If this file already exists <strong>it will be overwritten</strong>.</p>
+
+<div class="highlight highlight-source-js"><pre>  files<span class="pl-k">:</span> {
+    <span class="pl-s"><span class="pl-pds">'</span>dest.html<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src.html<span class="pl-pds">'</span></span>
+  },</pre></div>
+
+<p>An example configuration looks like this:</p>
+
+<div class="highlight highlight-source-js"><pre>  grunt.initConfig({
+    handlebarslayouts<span class="pl-k">:</span> {
+      home<span class="pl-k">:</span> {
+        files<span class="pl-k">:</span> {
+          <span class="pl-s"><span class="pl-pds">'</span>dist/home.html<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/home.html<span class="pl-pds">'</span></span>
+        },
+        options<span class="pl-k">:</span> {
+          partials<span class="pl-k">:</span> [
+            <span class="pl-s"><span class="pl-pds">'</span>src/partials/*.hbs<span class="pl-pds">'</span></span>,
+            <span class="pl-s"><span class="pl-pds">'</span>src/layout.html<span class="pl-pds">'</span></span>
+          ],
+          modules<span class="pl-k">:</span> [
+            <span class="pl-s"><span class="pl-pds">'</span>src/helpers/helpers-*.js<span class="pl-pds">'</span></span>
+          ],
+          basePath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/<span class="pl-pds">'</span></span>,
+          context<span class="pl-k">:</span> {
+            title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Layout Test<span class="pl-pds">'</span></span>,
+            items<span class="pl-k">:</span> [
+              <span class="pl-s"><span class="pl-pds">'</span>apple<span class="pl-pds">'</span></span>,
+              <span class="pl-s"><span class="pl-pds">'</span>orange<span class="pl-pds">'</span></span>,
+              <span class="pl-s"><span class="pl-pds">'</span>banana<span class="pl-pds">'</span></span>
+            ]
+          }
+        }
+      }
+    }
+  });
+  grunt.registerTask(<span class="pl-s"><span class="pl-pds">'</span>default<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>handlebarslayouts<span class="pl-pds">'</span></span>]);</pre></div>
+
+<h3>
+<a id="optional-configuration-properties" class="anchor" href="#optional-configuration-properties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optional Configuration Properties</h3>
+
+<p>This plugin can be customized by specifying the following options:</p>
+
+<ul>
+<li>
+<code>partials</code>: partials files.</li>
+<li>
+<code>basePath</code>: The base location to all your templates so that includes/partials can be resolved correctly.</li>
+<li>
+<code>context</code>: A JavaScript object to render the template against. This option supports a few different types:</li>
+<li>
+<code>modules</code>: add your customs helpers</li>
+<li>
+<code>strict</code>: when is true the process fails if one file is missing (when is false juste a warning is trigger)</li>
+</ul>
+
+<p>Useful Handlebars Helpers : <a href="https://github.com/assemble/handlebars-helpers">handlebars-helpers</a></p>
+
+<p><strong>String</strong>: the location to a file containing valid JSON:</p>
+
+<div class="highlight highlight-source-js"><pre>context<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>/path/to/file.json<span class="pl-pds">'</span></span></pre></div>
+
+<p><strong>Object</strong>: a regular ol' JavaScript object:</p>
+
+<div class="highlight highlight-source-js"><pre>context<span class="pl-k">:</span> {
+  pageTitle<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>My Awesome Website<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p><strong>Array</strong>: an array of contexts, either string (files to parse) or JavaScript objects, or both. Each item in the array will be merged into a single context and rendered against the template:</p>
+
+<div class="highlight highlight-source-js"><pre>context<span class="pl-k">:</span> [
+  <span class="pl-s"><span class="pl-pds">'</span>path/to/context.json<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>path/to/another/context.json<span class="pl-pds">'</span></span>,
+  { more<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> }
+]</pre></div>
+
+<h3>
+<a id="template-example" class="anchor" href="#template-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Template example</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>{{#extend "layout"}}
+    {{#append "head"}}
+      &lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>assets/css/home.css<span class="pl-pds">"</span></span> /&gt;
+    {{/append}}
+
+    {{#replace "body"}}
+      &lt;<span class="pl-ent">h2</span>&gt;Welcome Home&lt;/<span class="pl-ent">h2</span>&gt;
+
+      &lt;<span class="pl-ent">ul</span>&gt;
+        {{#items}}
+          &lt;<span class="pl-ent">li</span>&gt;{{.}}&lt;/<span class="pl-ent">li</span>&gt;
+        {{/items}}
+      &lt;/<span class="pl-ent">ul</span>&gt;
+    {{/replace}}
+
+    {{#prepend "footer"}}
+<span class="pl-s1">      &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>assets/js/analytics.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
+    {{/prepend}}
+{{/extend}}</pre></div>
+
+<h3>
+<a id="layout-example" class="anchor" href="#layout-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layout example</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="pl-ent">html</span> <span class="pl-e">lang</span>=<span class="pl-s"><span class="pl-pds">"</span>en<span class="pl-pds">"</span></span>&gt;
+  &lt;<span class="pl-ent">head</span>&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">charset</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">http-equiv</span>=<span class="pl-s"><span class="pl-pds">"</span>X-UA-Compatible<span class="pl-pds">"</span></span> <span class="pl-e">content</span>=<span class="pl-s"><span class="pl-pds">"</span>IE=edge,chrome=1<span class="pl-pds">"</span></span>&gt;
+    {{#block "head"}}
+          &lt;<span class="pl-ent">title</span>&gt;{{title}}&lt;/<span class="pl-ent">title</span>&gt;
+          &lt;<span class="pl-ent">meta</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>description<span class="pl-pds">"</span></span> <span class="pl-e">content</span>=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>&gt;
+    {{/block}}
+  &lt;/<span class="pl-ent">head</span>&gt;
+
+  &lt;<span class="pl-ent">body</span>&gt;
+    &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>site<span class="pl-pds">"</span></span>&gt;
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>site-hd<span class="pl-pds">"</span></span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>banner<span class="pl-pds">"</span></span>&gt;
+        {{#block "header"}}
+            &lt;<span class="pl-ent">h1</span>&gt;{{title}}&lt;/<span class="pl-ent">h1</span>&gt;
+        {{/block}}
+      &lt;/<span class="pl-ent">div</span>&gt;
+
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>site-bd<span class="pl-pds">"</span></span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>&gt;
+        {{#block "body"}}
+            &lt;<span class="pl-ent">h2</span>&gt;Hello World&lt;/<span class="pl-ent">h2</span>&gt;
+        {{/block}}
+      &lt;/<span class="pl-ent">div</span>&gt;
+
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>site-ft<span class="pl-pds">"</span></span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>contentinfo<span class="pl-pds">"</span></span>&gt;
+        {{#block "footer"}}
+            &lt;<span class="pl-ent">small</span>&gt;<span class="pl-c1">&amp;copy;</span> 2014&lt;/<span class="pl-ent">small</span>&gt;
+        {{/block}}
+      &lt;/<span class="pl-ent">div</span>&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+
+    {{#block "footer"}}
+      &lt;<span class="pl-ent">p</span>&gt;footer&lt;/<span class="pl-ent">p</span>&gt;
+    {{/block}}
+
+    {{&gt; footer}}
+  &lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+
+<h3>
+<a id="partial-example" class="anchor" href="#partial-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Partial example</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">footer</span>&gt;footer&lt;/<span class="pl-ent">footer</span>&gt;</pre></div>
+
+<h3>
+<a id="custom-helper-example" class="anchor" href="#custom-helper-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom Helper example</h3>
+
+<p>Helpers can either be an object or a single register function. If register is on the object, then it calls the register function, passing in the engine. </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">module.exports</span>.<span class="pl-en">register</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">Handlebars</span>, <span class="pl-smi">options</span>)  { 
+  Handlebars.registerHelper(<span class="pl-s"><span class="pl-pds">'</span>foo<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> ()  { 
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>foo<span class="pl-pds">'</span></span>;
+  });
+};</pre></div>
+
+<h4>
+<a id="md5-helper-inspired-by-handlebars-md5" class="anchor" href="#md5-helper-inspired-by-handlebars-md5" aria-hidden="true"><span class="octicon octicon-link"></span></a>MD5 Helper (inspired by <a href="https://github.com/neoziro/handlebars-md5">handlebars-md5</a>)</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">var</span> crypto <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>crypto<span class="pl-pds">'</span></span>),
+    fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>fs<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// The module to be exported</span>
+<span class="pl-k">var</span> helpers <span class="pl-k">=</span> {
+  <span class="pl-en">md5</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">path</span>) {
+    <span class="pl-k">var</span> content <span class="pl-k">=</span> fs.readFileSync(path);
+    <span class="pl-k">return</span> crypto.createHash(<span class="pl-s"><span class="pl-pds">'</span>md5<span class="pl-pds">'</span></span>).update(content).digest(<span class="pl-s"><span class="pl-pds">'</span>hex<span class="pl-pds">'</span></span>);
+  }
+};
+
+<span class="pl-c">// Export helpers</span>
+<span class="pl-c1">module.exports</span>.<span class="pl-en">register</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">Handlebars</span>, <span class="pl-smi">options</span>) {
+  options <span class="pl-k">=</span> options <span class="pl-k">||</span> {};
+
+  <span class="pl-k">for</span> (<span class="pl-k">var</span> helper <span class="pl-k">in</span> helpers) {
+    <span class="pl-k">if</span> (helpers.hasOwnProperty(helper)) {
+      Handlebars.registerHelper(helper, helpers[helper]);
+    }
+  }
+};</pre></div>
+
+<h4>
+<a id="foo-and-bar-helpers" class="anchor" href="#foo-and-bar-helpers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Foo and bar Helpers</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// The module to be exported</span>
+<span class="pl-k">var</span> helpers <span class="pl-k">=</span> {
+  <span class="pl-en">foo</span><span class="pl-k">:</span> <span class="pl-k">function</span> () {
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>foo<span class="pl-pds">'</span></span>;
+  },
+  <span class="pl-en">bar</span><span class="pl-k">:</span> <span class="pl-k">function</span> () {
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>bar<span class="pl-pds">'</span></span>;
+  }
+};
+
+<span class="pl-c">// Export helpers</span>
+<span class="pl-c1">module.exports</span>.<span class="pl-en">register</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">Handlebars</span>, <span class="pl-smi">options</span>) {
+  options <span class="pl-k">=</span> options <span class="pl-k">||</span> {};
+
+  <span class="pl-k">for</span> (<span class="pl-k">var</span> helper <span class="pl-k">in</span> helpers) {
+    <span class="pl-k">if</span> (helpers.hasOwnProperty(helper)) {
+      Handlebars.registerHelper(helper, helpers[helper]);
+    }
+  }
+};</pre></div>
+
+<h4>
+<a id="handlebars-markdown-helper" class="anchor" href="#handlebars-markdown-helper" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handlebars Markdown Helper</h4>
+
+<p>Very simple Markdown for partial. <strong>do not forget</strong> to add your .md files to the partial list.</p>
+
+<div class="highlight highlight-source-js"><pre>options<span class="pl-k">:</span> {
+  partials<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/partials/*.md<span class="pl-pds">'</span></span>,
+  ...
+}</pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/**</span>
+<span class="pl-c"> * Handlebars Markdown Helpers</span>
+<span class="pl-c"> * Copyright (c) 2014 Thierry Charbonnel</span>
+<span class="pl-c"> * Licensed under the MIT License (MIT).</span>
+<span class="pl-c"> */</span>
+<span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">var</span> marked <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>marked<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// Export helpers</span>
+<span class="pl-c1">module.exports</span>.<span class="pl-en">register</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">Handlebars</span>, <span class="pl-smi">options</span>) {
+  options <span class="pl-k">=</span> options <span class="pl-k">||</span> {};
+  options.marked <span class="pl-k">=</span> options.marked <span class="pl-k">||</span> {
+    renderer<span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">marked.Renderer</span>(),
+    gfm<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    tables<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    breaks<span class="pl-k">:</span> <span class="pl-c1">false</span>,
+    pedantic<span class="pl-k">:</span> <span class="pl-c1">false</span>,
+    sanitize<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    smartLists<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    smartypants<span class="pl-k">:</span> <span class="pl-c1">false</span>
+  };
+
+  Handlebars.registerHelper(<span class="pl-s"><span class="pl-pds">'</span>md<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">name</span>, <span class="pl-smi">context</span>){
+    <span class="pl-k">var</span> result;
+    marked.setOptions(options.marked);
+    <span class="pl-c">// Convert inline markdown by prepending the name string with `:`</span>
+    <span class="pl-k">if</span>(name.<span class="pl-c1">match</span>(<span class="pl-sr"><span class="pl-pds">/</span><span class="pl-k">^</span>:<span class="pl-pds">/</span></span>)) {
+      result <span class="pl-k">=</span> marked(name.<span class="pl-c1">replace</span>(<span class="pl-sr"><span class="pl-pds">/</span><span class="pl-k">^</span>:<span class="pl-pds">/</span></span>, <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>));
+    } <span class="pl-k">else</span> {
+      <span class="pl-k">try</span> {
+        result <span class="pl-k">=</span> marked(Handlebars.partials[name]);
+      } <span class="pl-k">catch</span>(err) {
+        result <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;!-- error --&gt;<span class="pl-pds">'</span></span>; 
+      }
+    }
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-en">Handlebars.SafeString</span>(result); 
+  });  
+};
+</pre></div>
+
+<h2>
+<a id="npm-helpers" class="anchor" href="#npm-helpers" aria-hidden="true"><span class="octicon octicon-link"></span></a>npm Helpers</h2>
+
+<p>Add it in devDependencies and in gruntfiles.js</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">"</span>devDependencies<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+  <span class="pl-s"><span class="pl-pds">"</span>handlebars-helper-moment<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>
+},</pre></div>
+
+<p>Add it in gruntfiles.js</p>
+
+<div class="highlight highlight-source-js"><pre>handlebarslayouts<span class="pl-k">:</span> {
+  home<span class="pl-k">:</span> {
+    files<span class="pl-k">:</span> {
+      <span class="pl-s"><span class="pl-pds">'</span>dist/home.html<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/home.html<span class="pl-pds">'</span></span>,
+      <span class="pl-s"><span class="pl-pds">'</span>dist/index.html<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/index.html<span class="pl-pds">'</span></span>
+    },
+    options<span class="pl-k">:</span> {
+      ...
+      modules<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>src/helpers/helpers-*.js<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>handlebars-helper-moment<span class="pl-pds">'</span></span>],
+      ...
+    }
+  }
+}</pre></div>
+
+<p>or ( v0.1.4 &gt; )</p>
+
+<div class="highlight highlight-source-js"><pre>handlebarslayouts<span class="pl-k">:</span> {
+  home<span class="pl-k">:</span> {
+    files<span class="pl-k">:</span> {
+      <span class="pl-s"><span class="pl-pds">'</span>dist/*.html<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/*.hsb<span class="pl-pds">'</span></span>
+    },
+    options<span class="pl-k">:</span> {
+      ...
+      modules<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>src/helpers/helpers-*.js<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>handlebars-helper-moment<span class="pl-pds">'</span></span>],
+      ...
+    }
+  }
+}</pre></div>
+
+<pre><code>npm install
+</code></pre>
+
+<h3>
+<a id="tested-helpers" class="anchor" href="#tested-helpers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tested Helpers</h3>
+
+<ul>
+<li><a href="https://github.com/helpers/handlebars-helper-moment">handlebars-helper-moment</a></li>
+</ul>
+
+<h2>
+<a id="suggested-structure" class="anchor" href="#suggested-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>suggested structure</h2>
+
+<h3>
+<a id="a-basic-handlebars-layouts-site-usually-looks-something-like-this" class="anchor" href="#a-basic-handlebars-layouts-site-usually-looks-something-like-this" aria-hidden="true"><span class="octicon octicon-link"></span></a>A basic Handlebars-layouts site usually looks something like this:</h3>
+
+<pre><code>.
+├── partials
+|   ├── footer.(html|hsb|md)
+|   └── header.(html|hsb|md)
+├── pages
+|   ├── 2014-08-14-Handlebars-layouts-foo.(html|hsb)
+|   └── 2014-08-14-Handlebars-layouts-bar.(html|hsb)
+├── data
+|   └── members.json
+├── helpers
+|   └── helpers-*.js
+└── index.html
+</code></pre>
+
+<h2>
+<a id="grunt-file-example" class="anchor" href="#grunt-file-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>grunt file example</h2>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-c">/*global module:false*/</span>
+<span class="pl-c1">module</span>.<span class="pl-en">exports</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">grunt</span>) {
+  <span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+  grunt.initConfig({
+
+    handlebarslayouts<span class="pl-k">:</span> {
+      dev<span class="pl-k">:</span> {
+        files<span class="pl-k">:</span> {
+          <span class="pl-c">//'dist/home.html': 'src/home.html'</span>
+          <span class="pl-s"><span class="pl-pds">'</span>dist/*.html<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/*.hsb<span class="pl-pds">'</span></span>
+        },
+        options<span class="pl-k">:</span> {
+          partials<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>src/partials/*.hbs<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>src/partials/*.md<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>src/layout.html<span class="pl-pds">'</span></span>],
+          basePath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/<span class="pl-pds">'</span></span>,
+          modules<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>src/helpers/helpers-*.js<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>handlebars-helper-moment<span class="pl-pds">'</span></span>],
+          context<span class="pl-k">:</span> {
+            title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Layout Test<span class="pl-pds">'</span></span>,
+            projectName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Grunt handlebars layout<span class="pl-pds">'</span></span>,
+            items<span class="pl-k">:</span> [
+              <span class="pl-s"><span class="pl-pds">'</span>apple<span class="pl-pds">'</span></span>,
+              <span class="pl-s"><span class="pl-pds">'</span>orange<span class="pl-pds">'</span></span>,
+              <span class="pl-s"><span class="pl-pds">'</span>banana<span class="pl-pds">'</span></span>
+            ]
+          }
+        }
+      }
+    },
+
+    connect<span class="pl-k">:</span> {
+      server<span class="pl-k">:</span> {
+        options<span class="pl-k">:</span> {
+          livereload<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+          port<span class="pl-k">:</span> <span class="pl-c1">8000</span>,
+          base<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>dist/<span class="pl-pds">'</span></span>,
+          open<span class="pl-k">:</span> <span class="pl-c1">true</span>
+        }
+      }
+    },
+
+    watch<span class="pl-k">:</span> {
+      layout<span class="pl-k">:</span> {
+        files<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/layout.html<span class="pl-pds">'</span></span>,
+        tasks<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>handlebarslayouts:dev<span class="pl-pds">'</span></span>
+      },
+      hsb<span class="pl-k">:</span> {
+        files<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/**/*.hsb<span class="pl-pds">'</span></span>,
+        tasks<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>handlebarslayouts:dev<span class="pl-pds">'</span></span>
+      },
+      options<span class="pl-k">:</span> {
+        livereload<span class="pl-k">:</span> <span class="pl-c1">true</span>
+      }
+    },
+
+  });
+
+  grunt.loadTasks(<span class="pl-s"><span class="pl-pds">'</span>../tasks<span class="pl-pds">'</span></span>);
+
+  grunt.loadNpmTasks(<span class="pl-s"><span class="pl-pds">'</span>grunt-contrib-connect<span class="pl-pds">'</span></span>);
+  grunt.loadNpmTasks(<span class="pl-s"><span class="pl-pds">'</span>grunt-contrib-watch<span class="pl-pds">'</span></span>);
+
+  grunt.registerTask(<span class="pl-s"><span class="pl-pds">'</span>default<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>handlebarslayouts<span class="pl-pds">'</span></span>]);
+
+  grunt.registerTask(<span class="pl-s"><span class="pl-pds">'</span>serve<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>handlebarslayouts<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>connect:server<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>watch<span class="pl-pds">'</span></span>]);
+
+};
+
+
+
+
+</pre></div>
+
+<h1></h1>
+
+<h2>
+<a id="other-interresting-projects" class="anchor" href="#other-interresting-projects" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other interresting projects</h2>
+
+<ul>
+<li>To precompile Handlebars templates to JST file use <a href="https://github.com/gruntjs/grunt-contrib-handlebars">grunt-contrib-handlebars</a>
+</li>
+<li>Static site generator for Grunt.js, Yeoman and Node.js. <a href="http://assemble.io">Assemble</a>
+</li>
+<li>This task renders Dust templates against a context to produce HTML. <a href="https://github.com/ehynds/grunt-dust-html">grunt-dust-html</a> </li>
+<li>Handlebars helpers which implement Jade-like layout blocks for Node project <a href="https://github.com/shannonmoeller/handlebars-layouts">handlebars-layouts</a>
+</li>
+<li>Library of 100+ handlebars helpers. <a href="https://github.com/assemble/handlebars-helpers">handlebars-helpers</a>
+</li>
+</ul>
+
+<h2>
+<a id="release-history-and-roadmap" class="anchor" href="#release-history-and-roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release History and Roadmap</h2>
+
+<ul>
+<li>2015-01-21   v0.2.1   context can loaded as files (exemple_2)</li>
+<li>2015-01-21   v0.2.0   update code</li>
+<li>2015-01-21   v0.2.0b  ready to work with grunt-contrib-connect and  grunt-contrib-watch.</li>
+<li>2014-10-08   v0.1.6   windows fix.</li>
+<li>2014-10-08   v0.1.4   Add * for files list and unique name for Partials.</li>
+<li>2014-09-05   v0.1.3   Better log error + strict mode.</li>
+<li>2014-09-05   v0.1.1   Async optimisation.</li>
+<li>2014-09-03   v0.1.0   First Release.</li>
+<li>2014-08-14   v0.0.*   Alpha ans Beta Releases</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2014 Thierry Charbonnel, contributors.<br>
+Released under the MIT license</p>
+
+<h2>
+<a id="gulp-version" class="anchor" href="#gulp-version" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gulp version.</h2>
+
+<p>Sooooon. 
+Help is welcome.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
