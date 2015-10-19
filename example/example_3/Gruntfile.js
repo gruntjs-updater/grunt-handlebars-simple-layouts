@@ -10,10 +10,10 @@ module.exports = function(grunt) {
         files: {
           //'dist/home.html': 'src/home.html'
           //'dist/*.html': 'src/*.hsb'
-          'dist/*.html': 'src/**/*.hsb'
+          'dist/*.html': 'src/**/*.html'
         },
         options: {
-          partials: ['src/partials/*.hbs', 'src/partials/*.md', 'src/layout.html'],
+          partials: ['src/partials/*.hbs', 'src/layout.html', 'src/partials/*.md'],
           basePath: 'src/',
           modules: ['src/helpers/helpers-*.js', 'handlebars-helper-moment'],
           context: ['src/pages/**/*.json'],

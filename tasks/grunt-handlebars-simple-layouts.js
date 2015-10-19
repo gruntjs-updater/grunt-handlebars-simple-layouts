@@ -137,16 +137,24 @@ module.exports = function(grunt) {
 
     this.files.forEach(function(filePair) {
     //async.each(this.files, function(filePair, callback) {
-
-      var src = filePair.src.filter(function(filepath) {
+        var src = filePair.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         grunt.log.writeln(filepath);
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file ' + chalk.cyan(filepath) + ' not found.');
           return false;
         } else {
-          return true;
+          //return true;
         }
+
+        // Remove source files if it is in partials.
+        var flag = true;
+        partials.forEach(function(partial) {
+          if(partial.replace("\\","/").indexOf(filepath.replace("\\","/"))>-1){
+              flag = false;
+          }
+        });
+        return flag;
       });
 
       if (src.length === 0) {
@@ -157,7 +165,8 @@ module.exports = function(grunt) {
         }
       }
 
-      filePair.src.forEach(function(srcFile) {
+      //filePair.src.forEach(function(srcFile) {
+      src.forEach(function(srcFile) {
         var template, html;
         var context = opts.context;
         var templatesPath = opts.templatesPath;
