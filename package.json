@@ -1,7 +1,7 @@
 {
   "name" : "grunt-handlebars-simple-layouts",
   "description" : "Handlebars task to render Handlebars templates to HTML",
-  "version" : "0.2.3",
+  "version" : "0.2.4",
   "homepage" : "https://github.com/yong1236/grunt-handlebars-simple-layouts",
   "author" : {
     "name" : "Thierry Charbonnel",
